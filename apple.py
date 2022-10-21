@@ -17,7 +17,7 @@ exploration = st.container()
 
 with header :
     st.title("PROJECT DATACAMP")
-    st.markdown("<h1 style='text-align: center; color: black;'>What do you think of APPLE ?</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center; color: black;'>What do you think of the E-reputation of APPLE ?</h1>", unsafe_allow_html=True)
     st.markdown('''
             <a>
                 <img src="https://www.incimages.com/uploaded_files/image/apple-talking_466826.gif" width="800px" />
@@ -98,7 +98,7 @@ def analyse(query):
 
 def main():
 
-    nav = st.sidebar.radio("Project Data Visulisation",['The Project','Iphone14','Apple','Les Deux PDGs','Lets test your Data'])
+    nav = st.sidebar.radio("Project Data Visulisation",['The Project','Iphone14','Apple','Two CEO','Lets test your Data'])
     if nav == "The Project":
         st.markdown("<h1 style='text-align: center; color: black;'>LISA SANGLAR AND YANNICK BIA2</h1>", unsafe_allow_html=True)
         st.write('##')
@@ -129,32 +129,42 @@ def main():
         logo = date_transformation(logo)
         logo = new_col(logo)
         st.write("##")
-        st.markdown("<h1 style='text-align: center; color: black;'>What do you think of the new Iphone 14 </h1>", unsafe_allow_html=True)
+        st.markdown("<h1 style='text-align: center; color: black;'>What do you think of the new Iphone 14 ?</h1>", unsafe_allow_html=True)
         st.write("##")
         
         st.write("Sentiment Score on Iphone 14 ")
+        st.write("##")
+        st.write("x = Date bewteen September and October ")
+        st.write("y = Compound of the tweet about the Iphone 14")
         dfg = logo.groupby(['Date'])['compound'].mean()
-        dfg.plot( title='Sentiment Score', ylabel='Mean Sentiment Score',
+        dfg.plot(title='Sentiment Score', ylabel='Mean Sentiment Score',
              xlabel='Period', figsize=(6, 5))
 
         st.bar_chart(dfg)
         
         st.write("#")
         st.write("Mean of each sentimal indicator for the Iphone14")
+        st.write("#")
+        st.write("Positif sentimal indicator")
         Positif14 = logo['pos'].mean()
         st.write(Positif14)
+        st.write("#")
+        st.write("Negtif sentimal indicator")
         Negatif14 = logo['neg'].mean()
         st.write(Negatif14)
+        st.write("#")
+        st.write("Neutral sentimal indicator")
         Neutre14 = logo['neu'].mean()
         st.write(Neutre14)
-        
+        st.write("#")
+        st.write("Compound sentimal indicator")
         Compound14 = logo['compound'].mean()
         st.write(Compound14)
         
         countries=['Positif', 'Negatif',
            'Neut', 'Moyenne']
  
-        values = [Positif14 * 100 ,Negatif14*100, Neutre14*100,Compound14*100]
+        values = [Positif14 * 100 ,Negatif14*100, Neutre14*100]
         st.write("##")
         #The plot
         fig = go.Figure(
@@ -169,6 +179,9 @@ def main():
         st.plotly_chart(fig)
         
     if nav == "Apple":
+        st.write("##")
+        st.markdown("<h1 style='text-align: center; color: black;'>What do you think of Apple ?</h1>", unsafe_allow_html=True)
+        st.write("##")
         path_apple006 ="apple2006.csv"
         apple2006 = load_data(path_apple006)
         #apple2006 = date_transformation(apple2006)
@@ -183,76 +196,67 @@ def main():
         applepop = load_data(path_applePop)
         
         st.write("##")
-        st.write("Le nombre de Like par rapport aux commentaires positifs/negatifs")
-        dfg = apple2006.groupby(['Like'])['compound'].mean()
-        dfg.plot( title='Sentiment Score', ylabel='Mean Sentiment Score',
-            xlabel='Period', figsize=(6, 5))
-        st.bar_chart(dfg)
-        
-        dfg = apple2021_2.groupby(['Like'])['compound'].mean()
+        st.write("Negative comment rate versus likes in 2006 ")
+        dfg = apple2006.groupby(['Like'])['neg'].mean()
         dfg.plot( title='Sentiment Score', ylabel='Mean Sentiment Score',
             xlabel='Period', figsize=(6, 5))
         st.bar_chart(dfg)
         
         st.write("##")
-        st.write("Le nombre de personnes qui ont mis des commentaires sous une publication négatives") 
-        
-        fig = px.line( 
-            apple2006,#DataFrame
-            x='Comment',
-            y='neg',
-            title="Number of commentary under negetive post "
-        )
-        st.plotly_chart(fig)
-        
-        fig2 = px.line( 
-            apple2021_2,#DataFrame
-            x='Comment',
-            y='neg',
-            title="Number of commentary under negetive post "
-        )
-        st.plotly_chart(fig2)
-        
-        fig3 = px.line( 
-            apple2021_2,#DataFrame
-            x='Comment',
-            y='pos',
-            title="Number of commentary under negetive post "
-        )
-        st.plotly_chart(fig3)
-        
+        st.write("Negative comment rate versus likes in 2021/2022")
+        dfg = apple2021_2.groupby(['Like'])['neg'].mean()
+        dfg.plot( title='Sentiment Score', ylabel='Mean Sentiment Score',
+            xlabel='Period', figsize=(6, 5))
+        st.bar_chart(dfg)
+
+
         st.write("##")
-        st.write("Le nombre de personne ayant mis des commentaires positifs/negatifs")
-        
-   
+        st.write("Postive comment rate versus likes in 2006")
         st.line_chart(apple2006['pos'])
+        st.write("##")
+        st.write("Negative comment rate versus likes in 2006")
         st.line_chart(apple2006['neg'])
+        st.write("##")
+        st.write("Compound comment rate versus likes in 2006")
         st.line_chart(apple2006['compound'])
         
+        st.write("##")
+        st.write("Positive comment rate versus likes in 2021/2")
         st.line_chart(apple2021_2['pos'])
+        st.write("##")
+        st.write("Negative comment rate versus likes in 2021/2")
         st.line_chart(apple2021_2['neg'])
+        st.write("##")
+        st.write("Compound comment rate versus likes in 2021/2")
         st.line_chart(apple2021_2['compound'])
         
         st.write("##")
-        st.write("Les nombres de Tweets positfs les plus likes derrières les Tweet d'Apple les populaires") 
-        
+        st.write("Table of the most popular tweet likes/comment /Retweet in 2022") 
+
         st.write(applepop)
+        st.write("##")
+        st.write("Compound of the most popular Apple Tweets versus Like ") 
         Like = alt.Chart(applepop).mark_circle().encode(
             x='Like', y='compound', size='Like', tooltip=['compound', 'Like'])
 
         st.altair_chart(Like, use_container_width=True)
         
+        st.write("Compound of the most popular Apple Tweets versus RT ")
         RT = alt.Chart(applepop).mark_circle().encode(
             x='RT', y='compound', size='RT', tooltip=['compound', 'RT'])
 
         st.altair_chart(RT, use_container_width=True)
-        
+        st.write("Compound of the most popular Apple Tweets versus Comment ")
         Comment = alt.Chart(applepop).mark_circle().encode(
             x='Comment', y='compound', size='Comment', tooltip=['compound', 'Comment'])
 
         st.altair_chart(Comment, use_container_width=True)
     
-    if nav == "Les Deux PDGs":
+    if nav == "Two CEO":
+        
+        st.write("##")
+        st.markdown("<h1 style='text-align: center; color: black;'>What do you think of the new Iphone 14 ?</h1>", unsafe_allow_html=True)
+        st.write("##")
         
         path_timcook = "timcook.csv"
         applecook = load_data(path_timcook)
@@ -260,24 +264,25 @@ def main():
         path_jobs = "stevejobs.csv"
         applejobs = load_data(path_jobs)
         
-        st.write("##")
-        st.write("Qui est le plus aimé ?")
-        
+        st.write('##')
+        st.write("Most popular tweet talked about Tim Cook in 2022 versus the compound")
         st.bar_chart(applecook['compound'])
+        st.write("Most popular tweet talked about Steve Jobs in 2022 versus the compound")
         st.bar_chart(applejobs['compound'])
         
         
-        
+        st.write("Compound of the most popular Tweets about Cook versus Like")
         Like = alt.Chart(applecook).mark_circle().encode(
             x='Like', y='pos', size='Like', tooltip=['compound', 'Like'])
         st.altair_chart(Like, use_container_width=True)
         
+        st.write("Compound of the most popular Tweets about Jobs versus Like")
         Like = alt.Chart(applejobs).mark_circle().encode(
             x='Like', y='pos', size='Like', tooltip=['compound', 'Like'])
         st.altair_chart(Like, use_container_width=True)
         
-        st.write('Sont-ils bien perçus par leurs clients')
-        
+        st.write('In général , what does their client think of this two CEO ? ')
+        st.write("Table of impression of Tim Cook and Steve Jobs combine ")
         # Define the base time-series chart.
         
         frames = [applecook, applejobs]
@@ -286,15 +291,18 @@ def main():
         st.write(result)
         
         #The plot
+        
         fig8 = px.line(
             result, #Data Frame
             x = "Date", #Columns from the data frame
             y = "Like",
-            title = "Line frame"
+            title = "Most popular Like Tweets about Jobs and Cook in 2022 "
         )
+        
         fig8.update_traces(line_color = "maroon")
         st.plotly_chart(fig8)
         
+        st.write("Table of the three most like tweet about them ")
         result2 = result.loc[result['Like'] == 261294]                       # Get rows with particular value
         st.write(result2)
         
@@ -305,6 +313,7 @@ def main():
         st.write(result4)
         st.write('#')
         
+        st.write("Links to those tweet , click on the image below")
         st.markdown('''
             <a href="https://t.co/W7EoLu8O30">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Question_mark_alternate.svg/800px-Question_mark_alternate.svg.png" width="50px" />
@@ -332,20 +341,28 @@ def main():
         
         
         #Likeable or not 
+        st.write("#")
+        st.write("Postive sentimal indicator")
         PositifM = applecook['pos'].mean()
         st.write(PositifM)
+        st.write("#")
+        st.write("Negative sentimal indicator")
         NegatifM = applecook['neg'].mean()
         st.write(NegatifM)
+        st.write("#")
+        st.write("Neutral sentimal indicator")
         NeutreM = applecook['neu'].mean()
         st.write(NeutreM)
         
+        st.write("#")
+        st.write("Compound sentimal indicator")
         CompoundM = applecook['compound'].mean()
         st.write(CompoundM)
         
         countries=['Positif', 'Negatif',
            'Neut', 'Moyenne']
  
-        values = [PositifM * 100 ,NegatifM*100, NeutreM*100,CompoundM*100]
+        values = [PositifM * 100 ,NegatifM*100, NeutreM*100]
 
         #The plot
         fig = go.Figure(
@@ -356,12 +373,15 @@ def main():
             textinfo = "value"
         ))
 
-        st.header("Pie chart")
+        st.header("Pie chart of each sentimal indicateur of Steve Jobs and Tim Cook")
         st.plotly_chart(fig)
         
     if nav == 'Lets test your Data':
+        st.write("##")
+        st.markdown("<h1 style='text-align: center; color: black;'>What do you think of your Data?</h1>", unsafe_allow_html=True)
+        st.write("##")
         st.write("Lets write want you want to search in Twitter ")
-        query1 = st.text_input('Movie title', 'Wrote your research here')
+        query1 = st.text_input('Tweet', 'Wrote your research here')
         st.write('##')
         st.write('The word you want to search is', query1)
         st.write('This is data set : ')
@@ -371,28 +391,38 @@ def main():
         
         
         
-        st.write("DEBUT D'ANALYSE DE VOTRE RECHERCHE")
+        st.write("BEGINNIN OF THE FIRST PART OF YOUR SEARCH")
         
+        st.write("Sentiment Score on",query1)
+        st.write("##")
+        st.write("x = Date bewteen September and October ")
+        st.write("y = Compound of the tweet about",query1)
         dfg = new.groupby(['Date'])['compound'].mean()
         dfg.plot( title='Sentiment Score', ylabel='Mean Sentiment Score',
         xlabel='Period', figsize=(6, 5))
         st.bar_chart(dfg)
         
-        
+        st.write("#")
+        st.write("Positives sentimal indicator")
         PositifS = new['pos'].mean()
         st.write(PositifS)
+        st.write("#")
+        st.write("Negatives sentimal indicator")
         NegatifS = new['neg'].mean()
         st.write(NegatifS)
+        st.write("#")
+        st.write("Neutral sentimal indicator")
         NeutreS = new['neu'].mean()
         st.write(NeutreS)
-        
+        st.write("#")
+        st.write("Compound sentimal indicator")
         CompoundS = new['compound'].mean()
         st.write(CompoundS)
         
         countries=['Positif', 'Negatif',
            'Neut', 'Moyenne']
  
-        values = [PositifS * 100 ,NegatifS*100, NeutreS*100,CompoundS*100]
+        values = [PositifS * 100 ,NegatifS*100, NeutreS*100]
 
         #The plot
         fig = go.Figure(
@@ -403,7 +433,7 @@ def main():
             textinfo = "value"
         ))
 
-        st.header("Pie chart")
+        st.header("Pie chart of each sentimal indicateur of your search")
         st.plotly_chart(fig)
         
         
