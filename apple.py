@@ -9,7 +9,9 @@ import altair as alt
 import snscrape.modules.twitter as snstwitter
 import nltk
 from nltk.sentiment import SentimentIntensityAnalyzer
-from tqdm.notebook import tqdm
+from tqdm.notebook import tqdm 
+
+nltk.download('punkt')
 
 header = st.container()
 dataset = st.container()
